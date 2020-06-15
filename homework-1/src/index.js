@@ -41,6 +41,13 @@ const formatedListOfPresidentsFrom10To14 = ({ firstName, lastName, presidentInde
   return `${lastName}, ${firstName}, ${presidentIndex}th`;
 }
 
+const stylingForListOfPresidentsFrom10To14 = {
+  backgroundColor: '#ddd',
+  paddingTop: '1em',
+  paddingBottom: '1em',
+  fontWeight: 'bold',
+}
+
 ReactDOM.render(
   <div>
     <ul>
@@ -60,7 +67,7 @@ ReactDOM.render(
         </li>
       )}
     </ul>
-    <ul>
+    <ul style={stylingForListOfPresidentsFrom10To14}>
       {listOfPresidentsFrom10To14.map(president =>
         president.presidentIndex % 2 === 1 ? (
           <li key={president.presidentIndex}>
