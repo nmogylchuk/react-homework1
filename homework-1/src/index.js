@@ -48,6 +48,66 @@ const stylingForListOfPresidentsFrom10To14 = {
   fontWeight: 'bold',
 }
 
+const dataFromServer = [
+  {
+    "id": "666958530825467",
+    "title": "Friday open-air party w/ Lucarelli, Mihas and Yarik JR | Hide",
+    "place": "Hide",
+    "date": "2020-06-12T20:00:00.000Z"
+  },
+  {
+    "id": "786185895252176",
+    "title": "Захист скверу імені Чкалова",
+    "place": "Сквер Им. Чкалова",
+    "date": "2020-06-10T09:00:00.000Z"
+  },
+  {
+    "id": "623921328209118",
+    "title": "Живая музыка на летней террасе",
+    "place": "От Заката до Рассвета",
+    "date": "2020-06-14T17:00:00.000Z"
+  },
+  {
+    "id": "909559356190295",
+    "title": "Amer (2009)",
+    "place": "Кіноклуб Кіноха",
+    "date": "2020-06-13T15:00:00.000Z"
+  },
+  {
+    "id": "589272605321022",
+    "title": "В парк Межигорье на теплоходе",
+    "place": "Причал №6, Почтовая пл.",
+    "date": "2020-06-13T07:45:00.000Z"
+  }]
+
+const getDay = (date) => {
+  const formatedDate = new Date(date);
+  const hoursOfDay = formatedDate.getHours();
+
+  if (hoursOfDay >= 5 && hoursOfDay < 11) {
+    return 'Morning';
+  } else if (hoursOfDay >= 11 && hoursOfDay < 17) {
+    return 'Day';
+  } else if (hoursOfDay >= 17 && hoursOfDay < 21) {
+    return 'Evening';
+  } else {
+    return 'Night';
+  }
+}
+
+const getTime = (date) => {
+  const formatedDate = new Date(date);
+  let dd = (formatedDate.getDate() < 10 ? '0' : '') + formatedDate.getDate();
+  let mm = ((formatedDate.getMonth() + 1) < 10 ? '0' : '') + (formatedDate.getMonth() + 1);
+  let yyyy = formatedDate.getFullYear();
+  let hh = formatedDate.getHours();
+  let min = (formatedDate.getMinutes() < 10 ? '0' : '') + formatedDate.getMinutes();
+  let sec = (formatedDate.getSeconds() < 10 ? '0' : '') + formatedDate.getSeconds();
+  let newFormat = [dd, mm, yyyy].join('/') + ', ' + [hh, min, sec].join(':');
+  return newFormat;
+}
+
+
 ReactDOM.render(
   <div>
     <ul>
@@ -75,6 +135,22 @@ ReactDOM.render(
           </li>
         ) : null
       )}
+    </ul>
+    <ul>
+      {dataFromServer
+        .sort((a, b) => (a.date > b.date ? 1 : -1))
+        .map(event =>
+          <li key={event.id}>
+            <a
+              href={`https://www.facebook.com/events/${event.id}/`}
+              target='_blank'
+              rel="noopener noreferrer">
+              {event.title}
+            </a>
+            <p>{getDay(event.date) + ', ' + getTime(event.date)}</p>
+            <p>{event.place}</p>
+          </li>
+        )}
     </ul>
   </div>,
   document.getElementById('root')
