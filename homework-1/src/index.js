@@ -108,6 +108,35 @@ const getTime = (date) => {
 }
 
 
+let data = {
+  name: '',
+  password: '',
+  plan: 'basic',
+  newsletter: true
+}
+
+const handleChange = (event) => {
+  data = { ...data, [event.target.name]: event.target.value };
+}
+
+let url = 'https://postman-echo.com/post';
+const handleSubmit = (event) => {
+  event.preventDefault();
+  fetch(url,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      },
+      mode: 'no-cors',
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(answer => console.log(answer));
+}
+
 ReactDOM.render(
   <div>
     <ul>
@@ -139,19 +168,80 @@ ReactDOM.render(
     <ul>
       {dataFromServer
         .sort((a, b) => (a.date > b.date ? 1 : -1))
-        .map(event =>
-          <li key={event.id}>
-            <a
-              href={`https://www.facebook.com/events/${event.id}/`}
-              target='_blank'
-              rel="noopener noreferrer">
-              {event.title}
-            </a>
-            <p>{getDay(event.date) + ', ' + getTime(event.date)}</p>
-            <p>{event.place}</p>
-          </li>
+        .map(event => {
+          return (
+            <li key={event.id}>
+              <a
+                href={`https://www.facebook.com/events/${event.id}/`}
+                target='_blank'
+                rel="noopener noreferrer">
+                {event.title}
+              </a>
+              <p>{getDay(event.date) + ', ' + getTime(event.date)}</p>
+              <p>{event.place}</p>
+            </li>
+          );
+        }
         )}
     </ul>
+
+    <form className='form' onSubmit={handleSubmit}>
+      <fieldset>
+        <div className='form__item'>
+          <label htmlFor='name'>Name</label>
+          <input
+            id='name'
+            type='text'
+            name='name'
+            pattern='[A-Za-z]{1,32}'
+            title='Your name should only contain upper and lowercase letters (e.g. Ivan)'
+            placeholder='Put your name'
+            minLength='2'
+            required
+            onChange={handleChange} />
+        </div>
+        <div className='form__item'>
+          <label htmlFor='password'>Password</label>
+          <input
+            id='password'
+            type='password'
+            name='password'
+            pattern='.{6,}'
+            title='Your name should only contain 6 or more characters'
+            placeholder='Put your password'
+            minLength='4'
+            required
+            onChange={handleChange} />
+        </div>
+        <div className='form__item'>
+          <label>Basic plan</label>
+          <input
+            type='radio'
+            name='plan'
+            value='basic'
+            defaultChecked
+            onChange={handleChange} />
+        </div>
+        <div className='form__item'>
+          <label>Premium plan</label>
+          <input
+            type='radio'
+            name='plan'
+            value='premium'
+            onChange={handleChange} />
+        </div>
+        <div htmlFor='newsletter' className='form__item'>
+          <label>Subscribe to our newsletters</label>
+          <input
+            id='newsletter'
+            type='checkbox'
+            name='newsletter'
+            defaultChecked
+            onChange={handleChange} />
+        </div>
+        <button type='submit'>Submit</button>
+      </fieldset>
+    </form>
   </div>,
   document.getElementById('root')
 );

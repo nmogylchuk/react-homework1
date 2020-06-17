@@ -16,3 +16,11 @@ ul > li:first-child::first-letter {
   color: #aaa;
   font-weight: bold;
 }
+
+fieldset {
+  margin: 1rem;
+}
+
+#name, #password {
+  display: block;
+}
