@@ -122,19 +122,22 @@ const handleChange = (event) => {
 let url = 'https://postman-echo.com/post';
 const handleSubmit = (event) => {
   event.preventDefault();
-  fetch(url,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      },
-      mode: 'no-cors',
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(answer => console.log(answer));
+  try {
+    fetch(url,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+        },
+        mode: 'no-cors',
+        body: JSON.stringify(data)
+      })
+      .then(console.log('Success'));
+  } catch (error) {
+    console.error('Error: ', error);
+  }
 }
 
 ReactDOM.render(
