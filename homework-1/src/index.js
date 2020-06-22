@@ -119,6 +119,10 @@ const handleChange = (event) => {
   data = { ...data, [event.target.name]: event.target.value };
 }
 
+const handleCheckboxChange = (event) => {
+  data = { ...data, [event.target.value]: event.target.checked };
+}
+
 let url = 'https://postman-echo.com/post';
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -239,8 +243,9 @@ ReactDOM.render(
             id='newsletter'
             type='checkbox'
             name='newsletter'
+            value='newsletter'
             defaultChecked
-            onChange={handleChange} />
+            onChange={handleCheckboxChange} />
         </div>
         <button type='submit'>Submit</button>
       </fieldset>
